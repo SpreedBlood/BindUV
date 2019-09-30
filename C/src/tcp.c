@@ -1,4 +1,4 @@
-#include "headers/com_binduv_libuv_handles_TcpHandle.h"
+#include "headers/com_binduv_libuv_handles_Tcp.h"
 #include <uv.h>
 #include <assert.h>
 
@@ -19,7 +19,7 @@ static void after_read(uv_stream_t *handle,
 
 static void on_close(uv_handle_t* peer);
 
-JNIEXPORT jint JNICALL Java_com_binduv_libuv_handles_TcpHandle_uv_1tcp_1init
+JNIEXPORT jint JNICALL Java_com_binduv_libuv_handles_Tcp_uv_1tcp_1init
         (JNIEnv *env, jobject class, jlong loop_pointer, jlong tcp_pointer) {
     assert(loop_pointer);
     assert(tcp_pointer);
@@ -40,7 +40,7 @@ JNIEXPORT jint JNICALL Java_com_binduv_libuv_handles_TcpHandle_uv_1tcp_1init
 }
 
 JNIEXPORT jint JNICALL
-Java_com_binduv_libuv_handles_TcpHandle_uv_1tcp_1bind(JNIEnv *env, jclass clazz, jlong tcp_pointer, jstring host,
+Java_com_binduv_libuv_handles_Tcp_uv_1tcp_1bind(JNIEnv *env, jclass clazz, jlong tcp_pointer, jstring host,
                                                       jint port) {
     assert(tcp_pointer);
     uv_tcp_t *tcp;
@@ -58,7 +58,7 @@ static jmethodID onDisconnect;
 static jmethodID onRead;
 
 JNIEXPORT jint JNICALL
-Java_com_binduv_libuv_handles_TcpHandle_uv_1listen(JNIEnv *env, jclass clazz, jlong tcp_pointer, jint backlog) {
+Java_com_binduv_libuv_handles_Tcp_uv_1listen(JNIEnv *env, jclass clazz, jlong tcp_pointer, jint backlog) {
     assert(tcp_pointer);
 
     if (!callbackInitialized) {
@@ -72,7 +72,7 @@ Java_com_binduv_libuv_handles_TcpHandle_uv_1listen(JNIEnv *env, jclass clazz, jl
 }
 
 JNIEXPORT jint JNICALL
-Java_com_binduv_libuv_handles_TcpHandle_uv_1accept(JNIEnv *env, jclass class, jlong server_pointer,
+Java_com_binduv_libuv_handles_Tcp_uv_1accept(JNIEnv *env, jclass class, jlong server_pointer,
                                                    jlong client_pointer) {
     assert(server_pointer);
     assert(client_pointer);
@@ -81,7 +81,7 @@ Java_com_binduv_libuv_handles_TcpHandle_uv_1accept(JNIEnv *env, jclass class, jl
 }
 
 JNIEXPORT jint JNICALL
-Java_com_binduv_libuv_handles_TcpHandle_uv_1read_1start(JNIEnv *env, jclass class, jlong client_pointer) {
+Java_com_binduv_libuv_handles_Tcp_uv_1read_1start(JNIEnv *env, jclass class, jlong client_pointer) {
     assert(client_pointer);
 
     return uv_read_start((uv_stream_t *) client_pointer, buf_alloc, after_read);

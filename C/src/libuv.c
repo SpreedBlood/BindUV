@@ -1,4 +1,4 @@
-#include "headers/com_binduv_libuv_Libuv.h"
+#include "headers/com_binduv_libuv_handles_Libuv.h"
 #include <uv.h>
 
 JNIEXPORT jstring JNICALL Java_com_binduv_libuv_Libuv_uv_1err_1name

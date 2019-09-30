@@ -1,4 +1,4 @@
-#include "headers/com_binduv_libuv_handles_AsyncHandle.h"
+#include "headers/com_binduv_libuv_handles_Async.h"
 #include <uv.h>
 #include <assert.h>
 
@@ -11,7 +11,7 @@ struct runnable_interface_s {
 } typedef runnable_interface_t;
 
 JNIEXPORT jint JNICALL
-Java_com_binduv_libuv_handles_AsyncHandle_uv_1async_1init(JNIEnv *env, jobject clazz, jlong loop_pointer,
+Java_com_binduv_libuv_handles_Async_uv_1async_1init(JNIEnv *env, jobject clazz, jlong loop_pointer,
                                                           jlong handle_pointer, jobject runnable) {
     assert(loop_pointer);
 
@@ -37,7 +37,7 @@ Java_com_binduv_libuv_handles_AsyncHandle_uv_1async_1init(JNIEnv *env, jobject c
 }
 
 JNIEXPORT jint JNICALL
-Java_com_binduv_libuv_handles_AsyncHandle_uv_1async_1send(JNIEnv *env, jobject clazz, jlong handle_pointer) {
+Java_com_binduv_libuv_handles_Async_uv_1async_1send(JNIEnv *env, jobject clazz, jlong handle_pointer) {
     assert(handle_pointer);
 
     uv_async_t *async_handle;

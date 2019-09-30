@@ -16,17 +16,18 @@ include_directories(${JNI_INCLUDE_DIRS})
 
 add_library(jibuv SHARED
         src/loop.c
-        src/headers/com_binduv_libuv_handles_LoopHandle.h
+        src/headers/com_binduv_libuv_handles_Loop.h
 
         src/uv_handle.c
         src/headers/com_binduv_libuv_handles_UvHandle.h
 
         src/async.c
-        src/headers/com_binduv_libuv_handles_AsyncHandle.h
+        src/headers/com_binduv_libuv_handles_Async.h
 
         src/tcp.c
+        src/headers/com_binduv_libuv_handles_Tcp.h
 
-        src/headers/com_binduv_libuv_Libuv.h src/libuv.c
-        src/headers/com_binduv_libuv_handles_TcpHandle.h)
+        src/libuv.c
+        src/headers/com_binduv_libuv_handles_Libuv.h)
 
 target_link_libraries(jibuv ${LIBUV_LIBRARIES})

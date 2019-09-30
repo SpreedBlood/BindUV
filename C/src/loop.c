@@ -1,8 +1,8 @@
-#include "headers/com_binduv_libuv_handles_LoopHandle.h"
+#include "headers/com_binduv_libuv_handles_Loop.h"
 #include <uv.h>
 #include <assert.h>
 
-JNIEXPORT jlong JNICALL Java_com_binduv_libuv_handles_LoopHandle_new_1loop_1handle(JNIEnv *env, jclass jclass) {
+JNIEXPORT jlong JNICALL Java_com_binduv_libuv_handles_Loop_new_1loop_1handle(JNIEnv *env, jclass jclass) {
     uv_loop_t *loop;
     loop = uv_loop_new();
 
@@ -10,7 +10,7 @@ JNIEXPORT jlong JNICALL Java_com_binduv_libuv_handles_LoopHandle_new_1loop_1hand
 }
 
 JNIEXPORT jint JNICALL
-Java_com_binduv_libuv_handles_LoopHandle_uv_1run(JNIEnv *env, jclass jclass, jlong loop_pointer, jint run_mode) {
+Java_com_binduv_libuv_handles_Loop_uv_1run(JNIEnv *env, jclass jclass, jlong loop_pointer, jint run_mode) {
     assert(loop_pointer);
     uv_loop_t *loop;
     loop = (uv_loop_t *) loop_pointer;
