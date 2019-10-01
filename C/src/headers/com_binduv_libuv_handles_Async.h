@@ -5,15 +5,15 @@
 #ifndef _Included_com_binduv_libuv_handles_Async
 #define _Included_com_binduv_libuv_handles_Async
 #ifdef __cplusplus
-extern "C" {
+extern "C" {4
 #endif
 /*
  * Class:     com_binduv_libuv_handles_Async
  * Method:    uv_async_init
- * Signature: (JJLjava/lang/Runnable;)I
+ * Signature: (JJ)I
  */
 JNIEXPORT jint JNICALL Java_com_binduv_libuv_handles_Async_uv_1async_1init
-        (JNIEnv *, jclass, jlong, jlong, jobject);
+        (JNIEnv *, jclass, jlong, jlong);
 
 /*
  * Class:     com_binduv_libuv_handles_Async
