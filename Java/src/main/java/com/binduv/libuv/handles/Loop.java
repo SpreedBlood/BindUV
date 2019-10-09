@@ -3,12 +3,14 @@ package com.binduv.libuv.handles;
 import com.binduv.LoopHandle;
 import com.binduv.libuv.handles.enums.UvRunMode;
 
+import java.io.IOException;
+
 class Loop implements LoopHandle {
 
     private long pointer;
 
     static {
-        System.loadLibrary("libjibuv");
+        System.loadLibrary("jibuv");
     }
 
     Loop() {
@@ -28,6 +30,14 @@ class Loop implements LoopHandle {
         }
     }
 
+    @Override
+    public void close() throws IOException {
+        int result = uv_loop_close(this.pointer);
+        if (result < 0) {
+            throw new IOException(Libuv.uv_err_name(result));
+        }
+    }
+
     /**
      * This will create a new loop handle
      *
@@ -42,4 +52,13 @@ class Loop implements LoopHandle {
      * @param run_mode the mode to run.
      */
     private static native int uv_run(long pointer, int run_mode);
+
+    /**
+     * Will terminate the libuv loop.
+     *
+     * @param pointer the pointer to the loop.
+     * @return the result, 0 = success, x < 0 = error.
+     */
+    private static native int uv_loop_close(long pointer);
+
 }

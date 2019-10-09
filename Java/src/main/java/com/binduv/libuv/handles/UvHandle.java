@@ -2,7 +2,10 @@ package com.binduv.libuv.handles;
 
 import com.binduv.libuv.handles.enums.UvHandleType;
 
-abstract class UvHandle {
+import java.io.Closeable;
+import java.io.IOException;
+
+abstract class UvHandle implements Closeable {
 
     private long loopPointer;
     private long handlePointer;
@@ -28,4 +31,14 @@ abstract class UvHandle {
      */
     static native long uv_handle_init(int handle_type);
 
+    /**
+     * Close the given handle.
+     * @param handle_pointer the pointer to the handle.
+     */
+    static native void uv_close(long handle_pointer);
+
+    @Override
+    public void close() {
+        uv_close(this.handlePointer);
+    }
 }

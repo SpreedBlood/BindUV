@@ -4,7 +4,9 @@ import com.binduv.callbacks.ConnectCallback;
 import com.binduv.callbacks.DisconnectCallback;
 import com.binduv.callbacks.ReadCallback;
 
-public interface ConnectionHandle {
+import java.io.Closeable;
+
+public interface ConnectionHandle extends Closeable {
 
     int getConnectionId();
 

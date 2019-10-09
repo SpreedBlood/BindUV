@@ -2,7 +2,9 @@ package com.binduv;
 
 import com.binduv.callbacks.AsyncCallback;
 
-public interface AsyncHandle {
+import java.io.Closeable;
+
+public interface AsyncHandle extends Closeable {
 
     void init() throws Exception;
 

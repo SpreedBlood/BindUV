@@ -4,7 +4,7 @@ import com.binduv.libuv.handles.DefaultHandleProvider;
 
 public class BindUvContext {
 
-    public HandleProvider getHandleProvider() {
+    public static HandleProvider getHandleProvider() {
         return new DefaultHandleProvider();
     }
 

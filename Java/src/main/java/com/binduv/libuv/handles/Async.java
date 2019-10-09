@@ -4,9 +4,6 @@ import com.binduv.AsyncHandle;
 import com.binduv.callbacks.AsyncCallback;
 import com.binduv.libuv.handles.enums.UvHandleType;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class Async extends UvHandle implements AsyncHandle {
 
     private AsyncCallback callback = (asyncHandle) -> {
@@ -57,5 +54,4 @@ class Async extends UvHandle implements AsyncHandle {
      * @return 0 if success else x < 0.
      */
     private static native int uv_async_send(long handlePointer);
-
 }
