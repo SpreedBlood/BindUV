@@ -17,3 +17,9 @@ Java_com_binduv_libuv_handles_Loop_uv_1run(JNIEnv *env, jclass jclass, jlong loo
 
     uv_run(loop, run_mode);
 }
+
+JNIEXPORT jint JNICALL Java_com_binduv_libuv_handles_Loop_uv_1loop_1close
+        (JNIEnv *env, jclass class, jlong loop_pointer) {
+
+    return (jint) uv_loop_close((uv_loop_t *) loop_pointer);
+}

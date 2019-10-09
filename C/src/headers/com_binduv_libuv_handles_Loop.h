@@ -23,6 +23,14 @@ JNIEXPORT jlong JNICALL Java_com_binduv_libuv_handles_Loop_new_1loop_1handle
 JNIEXPORT jint JNICALL Java_com_binduv_libuv_handles_Loop_uv_1run
         (JNIEnv *, jclass, jlong, jint);
 
+/*
+ * Class:     com_binduv_libuv_handles_Loop
+ * Method:    uv_loop_close
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_binduv_libuv_handles_Loop_uv_1loop_1close
+        (JNIEnv *, jclass, jlong);
+
 #ifdef __cplusplus
 }
 #endif

@@ -8,3 +8,8 @@ Java_com_binduv_libuv_handles_UvHandle_uv_1handle_1init(JNIEnv *env, jclass jcla
 
     return (jlong) handle;
 }
+
+JNIEXPORT void
+JNICALL Java_com_binduv_libuv_handles_UvHandle_uv_1close(JNIEnv *env, jclass class, jlong handle_pointer) {
+    uv_close((uv_handle_t *) handle_pointer, NULL);
+}

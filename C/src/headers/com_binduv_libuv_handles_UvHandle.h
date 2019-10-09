@@ -15,6 +15,14 @@ extern "C" {
 JNIEXPORT jlong JNICALL Java_com_binduv_libuv_handles_UvHandle_uv_1handle_1init
         (JNIEnv *, jclass, jint);
 
+/*
+ * Class:     com_binduv_libuv_handles_UvHandle
+ * Method:    uv_close
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_com_binduv_libuv_handles_UvHandle_uv_1close
+        (JNIEnv *, jclass, jlong);
+
 #ifdef __cplusplus
 }
 #endif
