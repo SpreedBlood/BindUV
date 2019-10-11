@@ -9,8 +9,7 @@ import com.binduv.libuv.handles.enums.UvRunMode;
 public class TcpHandler {
     public static void main(String[] args) {
         try {
-            BindUvContext bindUvContext = new BindUvContext();
-            HandleProvider handleProvider = bindUvContext.getHandleProvider();
+            HandleProvider handleProvider = BindUvContext.getHandleProvider();
 
             LoopHandle loopHandle = handleProvider.newLoop();
             ConnectionHandle connectionHandle = handleProvider.newTcpHandle(loopHandle);
