@@ -24,6 +24,18 @@ abstract class UvHandle implements Closeable {
     }
 
     /**
+     * DO NOT MODIFY THE NAME OF THIS METHOD.
+     */
+    private void onClose() {
+        this.handlePointer = -1;
+    }
+
+    @Override
+    public void close() {
+        uv_close(this.handlePointer);
+    }
+
+    /**
      * Initializes the given handle.
      *
      * @param handle_type the handle type to initialize.
@@ -36,9 +48,4 @@ abstract class UvHandle implements Closeable {
      * @param handle_pointer the pointer to the handle.
      */
     static native void uv_close(long handle_pointer);
-
-    @Override
-    public void close() {
-        uv_close(this.handlePointer);
-    }
 }

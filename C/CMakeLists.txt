@@ -37,6 +37,6 @@ add_library(jibuv SHARED
         src/headers/com_binduv_libuv_handles_Tcp.h
 
         src/libuv.c
-        src/headers/com_binduv_libuv_handles_Libuv.h)
+        src/headers/com_binduv_libuv_handles_Libuv.h src/headers/uv_handle.h)
 
 target_link_libraries(jibuv uv_a)

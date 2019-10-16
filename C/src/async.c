@@ -26,6 +26,7 @@ Java_com_binduv_libuv_handles_Async_uv_1async_1init(JNIEnv *env, jobject clazz, 
 
     if (!callbackInitialized) {
         onAsync = (*env)->GetMethodID(env, (*env)->GetObjectClass(env, clazz), "onCallback", "()V");
+        callbackInitialized = TRUE;
     }
 
     async_class->env = env;

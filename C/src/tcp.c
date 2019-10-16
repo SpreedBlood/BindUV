@@ -1,11 +1,7 @@
 #include "headers/com_binduv_libuv_handles_Tcp.h"
+#include "headers/uv_handle.h"
 #include <uv.h>
 #include <assert.h>
-
-struct tcp_class_s {
-    JNIEnv *env;
-    jclass tcphandle;
-} typedef tcp_class_t;
 
 static void on_connection(uv_stream_t *server, int status);
 
@@ -24,17 +20,17 @@ JNIEXPORT jint JNICALL Java_com_binduv_libuv_handles_Tcp_uv_1tcp_1init
     assert(loop_pointer);
     assert(tcp_pointer);
     uv_tcp_t *tcp;
-    tcp_class_t *tcp_class;
+    handle_class_t *handle_class;
 
     tcp = (uv_tcp_t *) tcp_pointer;
 
     jobject instance = (*env)->NewGlobalRef(env, class);
-    tcp_class = malloc(sizeof(tcp_class_t *));
+    handle_class = malloc(sizeof(handle_class_t *));
 
-    tcp_class->env = env;
-    tcp_class->tcphandle = instance;
+    handle_class->env = env;
+    handle_class->handle= instance;
 
-    tcp->data = tcp_class;
+    tcp->data = handle_class;
 
     return uv_tcp_init((uv_loop_t *)loop_pointer, tcp);
 }
@@ -88,13 +84,13 @@ Java_com_binduv_libuv_handles_Tcp_uv_1read_1start(JNIEnv *env, jclass class, jlo
 }
 
 static void on_connection(uv_stream_t *server, int status) {
-    tcp_class_t *tcp_class;
+    handle_class_t *handle_class;
     JNIEnv *env;
 
-    tcp_class = server->data;
-    env = tcp_class->env;
+    handle_class = server->data;
+    env = handle_class->env;
 
-    (*env)->CallVoidMethod(env, tcp_class->tcphandle, onConnect);
+    (*env)->CallVoidMethod(env, handle_class->handle, onConnect);
 }
 
 static void buf_alloc(uv_handle_t *handle,
@@ -107,17 +103,16 @@ static void buf_alloc(uv_handle_t *handle,
 static void after_read(uv_stream_t *handle,
                        ssize_t nread,
                        const uv_buf_t *buf) {
-    tcp_class_t *tcp_class;
+    handle_class_t *handle_class;
     JNIEnv *env;
 
-    tcp_class = handle->data;
-    env = tcp_class->env;
+    handle_class = handle->data;
+    env = handle_class->env;
     if (nread == UV_EOF) {
-        (*env)->CallVoidMethod(env, tcp_class->tcphandle, onDisconnect);
+        (*env)->CallVoidMethod(env, handle_class->handle, onDisconnect);
 
-        (*env)->DeleteGlobalRef(env, tcp_class->tcphandle);
+        (*env)->DeleteGlobalRef(env, handle_class->handle);
         uv_close((uv_handle_t*) handle, on_close);
-        free(tcp_class);
         free(buf->base);
         return;
     }
@@ -125,7 +120,7 @@ static void after_read(uv_stream_t *handle,
     jbyteArray arr = (*env)->NewByteArray(env, nread);
     (*env)->SetByteArrayRegion(env, arr, 0, nread, (jbyte *) buf->base);
 
-    (*env)->CallVoidMethod(env, tcp_class->tcphandle, onRead, arr, nread);
+    (*env)->CallVoidMethod(env, handle_class->handle, onRead, arr, nread);
 
     //free(buf->base);
 }

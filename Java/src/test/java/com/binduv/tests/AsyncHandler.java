@@ -16,6 +16,11 @@ public class AsyncHandler {
             asyncHandle.init();
             asyncHandle.setCallback(async -> {
                 System.out.println("Testing");
+                try {
+                    loopHandle.close();
+                } catch (Exception ex) {
+
+                }
             });
             asyncHandle.send();
 

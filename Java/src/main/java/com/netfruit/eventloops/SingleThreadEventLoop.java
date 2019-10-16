@@ -6,23 +6,21 @@ import com.binduv.HandleProvider;
 import com.binduv.LoopHandle;
 import com.binduv.libuv.handles.enums.UvRunMode;
 
-import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SingleThreadEventLoop implements EventLoop {
 
-    private static final int NOT_STARTED = 0;
-    private static final int STARTED = 1;
-    private static final int SHUTDOWN = 2;
+    private static final int STARTED = 0;
+    private static final int SHUTDOWN = 1;
 
     private LoopHandle loopHandle;
     private AsyncHandle asyncHandle;
     private Thread thread;
     private Queue<Runnable> taskQueue;
 
-    private AtomicInteger state;
+    private AtomicInteger atomicInteger;
 
     public SingleThreadEventLoop() {
         HandleProvider handleProvider = BindUvContext.getHandleProvider();
@@ -31,7 +29,7 @@ public class SingleThreadEventLoop implements EventLoop {
         this.taskQueue = new ConcurrentLinkedQueue<>();
         this.thread = new Thread(this::threadCallback);
         this.thread.start();
-        this.state = new AtomicInteger(NOT_STARTED);
+        this.atomicInteger = new AtomicInteger();
     }
 
     private void runAllTasks() {
@@ -44,16 +42,15 @@ public class SingleThreadEventLoop implements EventLoop {
     }
 
     private void asyncCallback(AsyncHandle asyncHandle) {
-        if (this.state.get() == SHUTDOWN) {
-            this.runAllTasks();
+        this.runAllTasks();
+
+        if (this.atomicInteger.get() == SHUTDOWN) {
             try {
                 this.asyncHandle.close();
                 this.loopHandle.close();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        } else {
-            this.runAllTasks();
         }
     }
 
@@ -61,7 +58,7 @@ public class SingleThreadEventLoop implements EventLoop {
         try {
             this.asyncHandle.init();
             this.asyncHandle.setCallback(this::asyncCallback);
-            this.state.set(STARTED);
+            this.atomicInteger.set(STARTED);
             this.loopHandle.run(UvRunMode.UV_RUN_DEFAULT);
         } catch (Exception ex) {
             System.out.println("Failed to setup single threaded event loop");
@@ -82,8 +79,8 @@ public class SingleThreadEventLoop implements EventLoop {
 
     @Override
     public void close() {
-        this.state.set(SHUTDOWN);
         try {
+            this.atomicInteger.set(SHUTDOWN);
             this.asyncHandle.send();
         } catch (Exception ex) {
             System.out.println("Failed to send async. and close single threaded event loop.");
